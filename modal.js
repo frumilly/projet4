@@ -1,3 +1,5 @@
+const closeBtn = document.querySelector(".close");
+
 function editNav() {
   var x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
@@ -20,4 +22,8 @@ function launchModal() {
   modalbg.style.display = "block";
 }
 
+function closeModal() {
+  modalbg.style.display = "none"; 
+}
 
+closeBtn.addEventListener("click", closeModal);
