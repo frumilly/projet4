@@ -21,9 +21,24 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 function launchModal() {
   modalbg.style.display = "block";
 }
+// Sélectionnez le formulaire à réinitialiser
+var form = document.forms.reserve;
+// Fonction pour effacer les messages d'erreur
+function clearErrorMessages() {
+  var errorMessages = document.querySelectorAll('.error-message');
+  errorMessages.forEach(function(errorMessage) {
+    errorMessage.remove();
+  });
+}
+// Fonction pour réinitialiser le formulaire
+function resetForm() {
+  form.reset();
+  clearErrorMessages();
+}
 
 function closeModal() {
   modalbg.style.display = "none"; 
+  resetForm();
 }
 
 closeBtn.addEventListener("click", closeModal);

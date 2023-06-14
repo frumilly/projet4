@@ -1,10 +1,11 @@
 // Récupérer la référence de l'élément bouton
 const submitButton = document.querySelector('.btn-submit');
-let isValid="true";
+let isValid=true;
 // Ajouter un gestionnaire d'événement pour l'événement 'click'
 submitButton.addEventListener('click', function(event) {
   // Empêcher le comportement par défaut du bouton (rechargement de la page)
   event.preventDefault();
+  clearErrorMessages(); 
 
   // Récupérer la référence de l'élément input
   const firstInput = document.getElementById('first');
@@ -13,17 +14,12 @@ submitButton.addEventListener('click', function(event) {
   const value = firstInput.value.trim();
 
   // Vérifier si la valeur a un minimum de 2 caractères et n'est pas vide
-  if (value.length >= 2 && value !== '') {
-    console.log('Le champ "first" est valide.');
-    // Ajoutez ici le code à exécuter si le champ est valide
-    // Par exemple, vous pouvez soumettre le formulaire avec submit() :
-    // document.getElementById('monFormulaire').submit();
-   
-  } else {
+  if (value.length <= 2 || value == '') {
+
     console.log('Le champ "first" est invalide.');
     // Ajoutez ici le code à exécuter si le champ est invalide
    
-    isValid="false";
+    isValid=false;
     displayError(firstInput, 'Veuillez entrer 2 caractères ou plus pour le champ du prénom.');
   }
    // Récupérer la référence de l'élément input du nom
@@ -33,27 +29,22 @@ submitButton.addEventListener('click', function(event) {
    const lastName = lastInput.value.trim();
  
    // Vérifier si le nom a un minimum de 2 caractères et n'est pas vide
-   if (lastName.length >= 2 && lastName !== '') {
-     console.log('Le champ "Nom" est valide.');
-     // Ajoutez ici le code à exécuter si le champ est valide
-   } else {
+   if (lastName.length <= 2 || lastName == '') {
      console.log('Le champ "Nom" est invalide.');
-     isValid="false";
+     isValid=false;
      displayError(lastInput, 'Veuillez entrer 2 caractères ou plus pour le champ du nom.');
    }
    // Récupérer la référence de l'élément input de l'adresse électronique
   const emailInput = document.getElementById('email');
 
   // Récupérer la valeur saisie dans le champ de l'adresse électronique
-  const email = emailInput.value.trim();
+  const emailA = emailInput.value.trim();
 
   // Vérifier si l'adresse électronique est valide
-  if (emailInput.checkValidity()) {
-    console.log('L\'adresse électronique est valide.');
-    // Ajoutez ici le code à exécuter si l'adresse électronique est valide
-  } else {
+  if (!validateEmail(emailA)) {
     console.log('L\'adresse électronique n\'est pas valide.');
-   isValid="false"
+   isValid=false;
+   displayError(emailInput, 'Email incorrect');
   }
  // Récupérer la référence de l'élément input
  const quantityInput = document.getElementById('quantity');
@@ -62,12 +53,9 @@ submitButton.addEventListener('click', function(event) {
  const quantity = quantityInput.value.trim();
 
  // Vérifier si la valeur saisie est numérique
- if (isNaN(quantity)) {
-   console.log('La valeur saisie est numérique.');
-   // Ajoutez ici le code à exécuter si la valeur est numérique
- } else {
+ if ((isNaN(quantity)) || (quantity<0) ){
    console.log('La valeur saisie n\'est pas numérique.');
-   // Ajoutez ici le code à exécuter si la valeur n'est pas numérique
+   displayError(quantityInput, 'Veuillez entrer une valeur numérique positive.');
  }
 
   // Récupérer les références des boutons radio avec le même nom de groupe
@@ -83,31 +71,35 @@ submitButton.addEventListener('click', function(event) {
   }
 
   // Vérifier si au moins un bouton radio est sélectionné
-  if (isLocationSelected) {
-    console.log('Au moins un bouton radio est sélectionné.');
-    // Ajoutez ici le code à exécuter si au moins un bouton radio est sélectionné
-  } else {
+  if (!isLocationSelected) {
     console.log('Aucun bouton radio n\'est sélectionné.');
-    displayError(isLocationSelected, '"Vous devez choisir une option."');
-   isValid="false";
+    displayError(locationInputs, 'Vous devez choisir une option.');
+   isValid=false;
   }
 
   // Récupérer la référence de l'élément de la première case à cocher
   const checkbox1 = document.getElementById('checkbox1');
 
   // Vérifier si la première case à cocher est cochée
-  if (checkbox1.checked) {
-    console.log('La première case à cocher est cochée.');
-    // Ajoutez ici le code à exécuter si la première case à cocher est cochée
-  } else {
+  if (!checkbox1.checked) {
     console.log('La première case à cocher est obligatoire.');
-    isValid="false";
+    displayError(checkbox1, '"Vous devez vérifier que vous acceptez les termes et conditions."');
+    isValid=false;
   }
 
 alert(isValid);
 
 });
-
+function validateEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+function clearErrorMessages() {
+  var errorMessages = document.querySelectorAll('.error-message');
+  errorMessages.forEach(function(errorMessage) {
+    errorMessage.remove();
+  });
+}
 
 // Fonction pour afficher un message d'erreur sous un champ de saisie
 function displayError(inputElement, errorMessage) {
@@ -119,7 +111,7 @@ function displayError(inputElement, errorMessage) {
   
     // Créer un nouvel élément de paragraphe pour le message d'erreur
     const errorElement = document.createElement('p');
-    errorElement.classList.add('error-message');
+    errorElement.classList.add('error-message','small-error-message');
     errorElement.textContent = errorMessage;
   
     // Insérer le message d'erreur sous le champ de saisie
