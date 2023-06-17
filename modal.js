@@ -1,5 +1,5 @@
 const closeBtn = document.querySelector(".close");
-
+const closeBtn2 = document.querySelector(".fermer");
 function editNav() {
   var x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
@@ -42,3 +42,4 @@ function closeModal() {
 }
 
 closeBtn.addEventListener("click", closeModal);
+closeBtn2.addEventListener("click", closeModal);

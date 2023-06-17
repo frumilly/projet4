@@ -46,6 +46,35 @@ submitButton.addEventListener('click', function(event) {
    isValid=false;
    displayError(emailInput, 'Email incorrect');
   }
+
+  // Récupérer la valeur de la date de naissance à partir de l'élément input
+const birthdateInput = document.getElementById("birthdate");
+const birthdateValue = new Date(birthdateInput.value);
+
+// Définir les limites d'âge
+const ageLimitMin = new Date();
+ageLimitMin.setFullYear(ageLimitMin.getFullYear() - 65);
+
+const ageLimitMax = new Date();
+ageLimitMax.setFullYear(ageLimitMax.getFullYear() - 18);
+
+// Vérifier si la date de naissance est valide
+if (isNaN(birthdateValue)) {
+  isValid=false;
+  document.getElementById('date_error').textContent = 'Date de naissance invalide';
+} else {
+  // Comparer la date de naissance avec les limites d'âge
+  if (birthdateValue < ageLimitMin) {
+    document.getElementById('date_error').textContent = 'Date de naissance invalide';
+    isValid=false;
+  } else if (birthdateValue > ageLimitMax) {
+    document.getElementById('date_error').textContent = 'Date de naissance invalide';
+    isValid=false;
+  } else {
+    console.log("L'âge de la personne est valide.");
+  }
+}
+
  // Récupérer la référence de l'élément input
  const quantityInput = document.getElementById('quantity');
 
@@ -73,7 +102,7 @@ submitButton.addEventListener('click', function(event) {
   // Vérifier si au moins un bouton radio est sélectionné
   if (!isLocationSelected) {
     console.log('Aucun bouton radio n\'est sélectionné.');
-    displayError(locationInputs, 'Vous devez choisir une option.');
+    document.getElementById('location-error1').textContent = 'Veuillez sélectionner un tournoi.';
    isValid=false;
   }
 
@@ -83,11 +112,20 @@ submitButton.addEventListener('click', function(event) {
   // Vérifier si la première case à cocher est cochée
   if (!checkbox1.checked) {
     console.log('La première case à cocher est obligatoire.');
-    displayError(checkbox1, '"Vous devez vérifier que vous acceptez les termes et conditions."');
+    document.getElementById('location-error2').textContent = 'Veuillez accepter les termes et conditions.';
     isValid=false;
   }
+if(isValid==true){
+  const formElement = document.getElementById("reserve_f");
+  const successMessageElement = document.getElementById("success-message-container1");
+  
 
-alert(isValid);
+  // Supprimer le formulaire
+  formElement.remove();
+
+  // Afficher le message de remerciement
+  successMessageElement.style.display = "block";
+}
 
 });
 function validateEmail(email) {
