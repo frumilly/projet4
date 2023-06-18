@@ -6,7 +6,13 @@ submitButton.addEventListener('click', function(event) {
   // Empêcher le comportement par défaut du bouton (rechargement de la page)
   event.preventDefault();
   clearErrorMessages(); 
-
+  var locationError1 = document.getElementById("location-error2");
+locationError1.textContent = "";
+var locationError2 = document.getElementById("location-error1");
+locationError2.textContent = "";
+var locationError3 = document.getElementById("date_error");
+locationError3.textContent = "";
+isValid=true;
   // Récupérer la référence de l'élément input
   const firstInput = document.getElementById('first');
 
@@ -49,6 +55,7 @@ submitButton.addEventListener('click', function(event) {
 
   // Récupérer la valeur de la date de naissance à partir de l'élément input
 const birthdateInput = document.getElementById("birthdate");
+const date_verif = birthdateInput.value;
 const birthdateValue = new Date(birthdateInput.value);
 
 // Définir les limites d'âge
@@ -57,12 +64,9 @@ ageLimitMin.setFullYear(ageLimitMin.getFullYear() - 65);
 
 const ageLimitMax = new Date();
 ageLimitMax.setFullYear(ageLimitMax.getFullYear() - 18);
-
 // Vérifier si la date de naissance est valide
-if (isNaN(birthdateValue)) {
-  isValid=false;
-  document.getElementById('date_error').textContent = 'Date de naissance invalide';
-} else {
+if (date_verif =="") { document.getElementById('date_error').textContent = 'Date de naissance invalide';
+isValid=false;}
   // Comparer la date de naissance avec les limites d'âge
   if (birthdateValue < ageLimitMin) {
     document.getElementById('date_error').textContent = 'Date de naissance invalide';
@@ -70,10 +74,7 @@ if (isNaN(birthdateValue)) {
   } else if (birthdateValue > ageLimitMax) {
     document.getElementById('date_error').textContent = 'Date de naissance invalide';
     isValid=false;
-  } else {
-    console.log("L'âge de la personne est valide.");
-  }
-}
+  } 
 
  // Récupérer la référence de l'élément input
  const quantityInput = document.getElementById('quantity');
@@ -93,6 +94,7 @@ if (isNaN(birthdateValue)) {
   // Vérifier si au moins un bouton radio est sélectionné
   let isLocationSelected = false;
   for (let i = 0; i < locationInputs.length; i++) {
+    //console.log("test_check");
     if (locationInputs[i].checked) {
       isLocationSelected = true;
       break;

@@ -13,6 +13,7 @@
   font-size: 12px;
   color:red;
 }
+
 .success{
  font-size: 35px;
 
@@ -226,7 +227,7 @@ main {
 .modal-body {
   padding: 15px 8%;
   margin: 15px auto;
-  height:780px;
+  height:880px;
 }
 
 label {
