@@ -229,6 +229,9 @@ main {
   margin: 15px auto;
   height:880px;
 }
+#success-message-container1{
+  display: none;
+}
 
 label {
   font-family: var(--font-default);
