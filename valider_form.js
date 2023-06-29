@@ -7,8 +7,10 @@ submitButton.addEventListener('click', function (event) {
   // Empêcher le comportement par défaut du bouton (rechargement de la page)
   event.preventDefault();
   clearErrorMessages();
-
-
+  let locationErrory = document.getElementById("date_error");
+  locationErrory.textContent = "";
+let locationErroro = document.getElementById("location-error1");
+  locationErroro.textContent = "";
   
   isValid = true;
   // Récupérer la référence de l'élément input
@@ -70,10 +72,10 @@ submitButton.addEventListener('click', function (event) {
   }
   // Comparer la date de naissance avec les limites d'âge
   if (birthdateValue < ageLimitMin) {
-    document.getElementById('date_error').textContent = 'Vous êtes encore mineur';
+    document.getElementById('date_error').textContent = 'L\'âge limite est de 65 ans';
     isValid = false;
   } else if (birthdateValue > ageLimitMax) {
-    document.getElementById('date_error').textContent = 'L\'âge limite est de 65 ans';
+    document.getElementById('date_error').textContent = ' Vous êtes encore mineur';
     isValid = false;
   }
 
@@ -84,8 +86,9 @@ submitButton.addEventListener('click', function (event) {
   const quantity = quantityInput.value.trim();
 
   // Vérifier si la valeur saisie est numérique
-  if ((isNaN(quantity)) || (quantity < 0)) {
+  if ((isNaN(quantity)) || (quantity < 0)||(quantity=='')) {
     console.log('La valeur saisie n\'est pas numérique.');
+    isValid = false;
     displayError(quantityInput, 'Veuillez entrer une valeur numérique positive.');
   }
 
